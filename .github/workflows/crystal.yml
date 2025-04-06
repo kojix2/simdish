@@ -1,0 +1,38 @@
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        crystal: [latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install Crystal
+      uses: crystal-lang/install-crystal@v1
+      with:
+        crystal: ${{ matrix.crystal }}
+
+    - name: Install dependencies
+      run: shards install
+
+    - name: Build C library
+      run: cd c && make
+
+    - name: Run tests
+      run: crystal spec
+
+    - name: Run example
+      run: crystal examples/basic.cr
