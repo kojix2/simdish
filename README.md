@@ -82,6 +82,16 @@ make
 
 ## Usage
 
+Before running the examples or tests, ensure that the library path is set correctly. This can be done by setting the `DYLD_LIBRARY_PATH` and `LD_LIBRARY_PATH` environment variables:
+
+```bash
+# For macOS
+DYLD_LIBRARY_PATH=$(pwd)/c crystal examples/basic.cr
+
+# For Linux
+LD_LIBRARY_PATH=$(pwd)/c crystal examples/basic.cr
+```
+
 ```crystal
 require "simdish"
 
